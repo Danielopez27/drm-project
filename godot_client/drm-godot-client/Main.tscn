@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bqe4w30aojhfa"]
+
+[ext_resource type="Script" uid="uid://dmhp0w7pa1cj6" path="res://main.gd" id="1_glv2v"]
+
+[node name="Main" type="Control" unique_id=1117577490]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_glv2v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2097523642]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -113.0
+offset_top = -60.0
+offset_right = 113.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=478555592]
+layout_mode = 2
+text = "Verificación DRM"
+horizontal_alignment = 1
+
+[node name="ValidateButton" type="Button" parent="VBoxContainer" unique_id=849586760]
+layout_mode = 2
+text = "Verificar integridad"
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer" unique_id=1285287063]
+layout_mode = 2
+text = "Estado: esperando verificación"
+
+[node name="ProtectedContentLabel" type="Label" parent="VBoxContainer" unique_id=2124401091]
+layout_mode = 2
+text = "Contenido protegido: bloqueado"
+
+[node name="LicenseRequest" type="HTTPRequest" parent="." unique_id=1219490987]
