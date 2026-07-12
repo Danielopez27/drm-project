@@ -1,17 +1,21 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from pathlib import Path
+from hash_generator import calculateHash
 
 app = FastAPI()
 
-EXPECTED_HASH = "e7c7f8f5a2b80479d771c81ed1400d3e9316852318186d95211c6c65f71a4f59"
+BASE_DIR = Path(__file__).resolve().parent
+ASSET_KEY_PATH = BASE_DIR / "asset_key.txt"
 
+EXPECTED_HASH = calculateHash()
 
 class VerifyRequest(BaseModel):
     file_hash: str
 
 
 def load_asset_key():
-    with open("asset_key.txt", "r") as file:
+    with open(ASSET_KEY_PATH, "r") as file:
         return file.read().strip()
 
 

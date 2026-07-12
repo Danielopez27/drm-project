@@ -1,13 +1,15 @@
 import hashlib
 import base64
 import requests
+from pathlib import Path
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 
 SERVER_URL = "http://127.0.0.1:8000/verify"
 
-CRITICAL_FILE_PATH = "../game/scripts/critical.gd"
-ENCRYPTED_ASSET_PATH = "../game/assets/mensaje_secreto.enc"
+BASE_DIR = Path(__file__).resolve().parent
+CRITICAL_FILE_PATH = (BASE_DIR / ".." / "game" / "scripts" / "critical.gd").resolve()
+ENCRYPTED_ASSET_PATH = (BASE_DIR / ".." / "game" / "assets" / "mensaje_secreto.enc").resolve()
 
 
 def calculate_sha256(path):

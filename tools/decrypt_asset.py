@@ -1,9 +1,11 @@
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import base64
+from pathlib import Path
 
 
-encrypted_path = "../game/assets/mensaje_secreto.enc"
-key_path = "../server/asset_key.txt"
+BASE_DIR = Path(__file__).resolve().parent
+encrypted_path = (BASE_DIR / ".." / "game" / "assets" / "mensaje_secreto.enc").resolve()
+key_path = (BASE_DIR / ".." / "server" / "asset_key.txt").resolve()
 
 
 with open(key_path, "r") as file:

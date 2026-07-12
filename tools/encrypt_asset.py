@@ -1,13 +1,15 @@
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import os
 import base64
+from pathlib import Path
 
 
 KEY = AESGCM.generate_key(bit_length=256)
 
-input_path = "../game/assets/mensaje_secreto.txt"
-output_path = "../game/assets/mensaje_secreto.enc"
-key_output_path = "../server/asset_key.txt"
+BASE_DIR = Path(__file__).resolve().parent
+input_path = (BASE_DIR / ".." / "game" / "assets" / "mensaje_secreto.txt").resolve()
+output_path = (BASE_DIR / ".." / "game" / "assets" / "mensaje_secreto.enc").resolve()
+key_output_path = (BASE_DIR / ".." / "server" / "asset_key.txt").resolve()
 
 
 with open(input_path, "rb") as file:
