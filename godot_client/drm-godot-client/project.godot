@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="drm_godot_client"
+config/name="Intellectual Jokes"
 run/main_scene="uid://bqe4w30aojhfa"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
