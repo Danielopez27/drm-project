@@ -16,6 +16,10 @@ func _ready():
 	validate_button.pressed.connect(_on_validate_button_pressed)
 	license_request.request_completed.connect(_on_license_request_completed)
 
+	ContentManager.verification_started.connect(_on_scene_verification_started)
+	ContentManager.verification_failed.connect(_on_scene_verification_failed)
+	ContentManager.scene_ready.connect(_on_scene_ready)
+
 	protected_content_label.text = "Contenido protegido: bloqueado"
 
 
@@ -104,7 +108,7 @@ func _on_license_request_completed(
 		print(received_key)
 
 		unlock_protected_content()
-		
+
 	else:
 		received_key = ""
 		status_label.text = "Estado: acceso denegado"
@@ -128,8 +132,23 @@ func unlock_protected_content():
 
 	protected_content_label.text = "Contenido desbloqueado: " + protected_content
 	ContentManager.UNLOCK_CONTENT_KEY = received_key
-	
 
 
 func _on_validate_button_2_pressed() -> void:
+	validate_button.disabled = true
 	ContentManager.query_scene_change("first_level")
+
+
+func _on_scene_verification_started(scene_name: String) -> void:
+	status_label.text = "Estado: verificando '%s'..." % scene_name
+
+
+func _on_scene_verification_failed(scene_name: String, reason: String) -> void:
+	status_label.text = "Estado: acceso denegado (%s)" % reason
+	validate_button.disabled = false
+
+
+func _on_scene_ready(scene_name: String) -> void:
+	status_label.text = "Estado: acceso concedido, cargando '%s'..." % scene_name
+	# El propio ContentManager ya hace get_tree().change_scene_to_packed(),
+	# así que esta escena (main.gd) será reemplazada justo después de esto.
