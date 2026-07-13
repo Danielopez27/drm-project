@@ -22,10 +22,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -113.0
-offset_top = -60.0
-offset_right = 113.0
-offset_bottom = 60.0
+offset_left = -136.0
+offset_top = -217.0
+offset_right = 137.0
+offset_bottom = -70.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -51,5 +51,13 @@ layout_mode = 2
 text = "Solicitar carga de siguiente escena"
 
 [node name="LicenseRequest" type="HTTPRequest" parent="." unique_id=1219490987]
+
+[node name="ProtectedContentLabel" type="Label" parent="." unique_id=2088841531]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 475.0
+offset_right = 241.0
+offset_bottom = 498.0
+text = "Assets por: Pixel Frog"
 
 [connection signal="pressed" from="VBoxContainer/ValidateButton2" to="." method="_on_validate_button_2_pressed"]
