@@ -7,8 +7,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_right = 1.0
+offset_left = 20.0
+offset_top = 143.0
+offset_right = 20.0
+offset_bottom = 143.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_m6kl7")
@@ -44,4 +46,10 @@ text = "Estado: esperando verificación"
 layout_mode = 2
 text = "Contenido protegido: bloqueado"
 
+[node name="ValidateButton2" type="Button" parent="VBoxContainer" unique_id=1220726571]
+layout_mode = 2
+text = "Solicitar carga de siguiente escena"
+
 [node name="LicenseRequest" type="HTTPRequest" parent="." unique_id=1219490987]
+
+[connection signal="pressed" from="VBoxContainer/ValidateButton2" to="." method="_on_validate_button_2_pressed"]
