@@ -4,10 +4,14 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+build/
+dist/
+*.spec
 
 # Environment / secrets
 .env
 server/asset_key.txt
+scene_keys.json
 
 # Godot
 .godot/
