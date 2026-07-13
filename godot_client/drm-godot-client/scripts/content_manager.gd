@@ -20,6 +20,8 @@ const CRITICAL_GD_PATH := "res://scripts/critical.gd"
 const DECRYPT_CLIENT_EXE := "res://scripts/bin/decrypt_client.exe"
 const CACHE_DIR := "user://cache/"
 
+const DEBUG_DELETE_DELAY_SECONDS := 0.0
+
 var UNLOCK_CONTENT_KEY
 
 var _http_request: HTTPRequest
@@ -39,6 +41,8 @@ func _ready() -> void:
 func query_scene_change(new_scene_name: String) -> void:
 	_pending_scene_name = new_scene_name
 
+	print(" ---------- Iniciando verificación para escena '%s' ----------\n" % new_scene_name)
+
 	emit_signal("verification_started", new_scene_name)
 
 	var critical_file := FileAccess.open(CRITICAL_GD_PATH, FileAccess.READ)
@@ -52,6 +56,9 @@ func query_scene_change(new_scene_name: String) -> void:
 
 	var file_hash := content.sha256_text()
 
+	print("[DRM] Hash SHA-256 calculado de critical.gd:")
+	print("[DRM] %s" % file_hash)
+
 	var payload := {
 		"file_hash": file_hash,
 		"scene_name": new_scene_name + ".tscn"
@@ -62,6 +69,9 @@ func query_scene_change(new_scene_name: String) -> void:
 	var headers := PackedStringArray([
 		"Content-Type: application/json"
 	])
+
+	print("[DRM] Enviando petición POST a %s" % SERVER_URL)
+	print("[DRM] Body enviado: %s" % json_body)
 
 	var error := _http_request.request(
 		SERVER_URL,
@@ -82,11 +92,16 @@ func _on_verify_request_completed(
 ) -> void:
 	var scene_name := _pending_scene_name
 
+	print("[DRM] Respuesta HTTP recibida. Código: %s" % response_code)
+
 	if response_code != 200:
 		_fail(scene_name, "Error del servidor (código %s)" % response_code)
 		return
 
 	var response_text := body.get_string_from_utf8()
+
+	print("[DRM] Cuerpo de la respuesta del servidor:")
+	print("[DRM] %s" % response_text)
 
 	var json := JSON.new()
 	var parse_error := json.parse(response_text)
@@ -107,6 +122,9 @@ func _on_verify_request_completed(
 	if scene_key == "":
 		_fail(scene_name, "Acceso concedido, pero no llegó la llave")
 		return
+
+	print("[DRM] Acceso concedido por el servidor.")
+	print("[DRM] Llave recibida (hex): %s" % scene_key)
 
 	UNLOCK_CONTENT_KEY = scene_key
 
@@ -129,8 +147,14 @@ func _decrypt_and_load_scene(scene_name: String, scene_key: String) -> void:
 		output_abs
 	]
 
+	print("[DRM] Ejecutando decrypt_client.exe:")
+	print("[DRM] %s %s" % [exe_abs, str(args)])
+
 	var output := []
 	var exit_code := OS.execute(exe_abs, args, output, true)
+
+	print("[DRM] decrypt_client.exe terminó con código: %s" % exit_code)
+	print("[DRM] Salida del proceso: %s" % str(output))
 
 	if exit_code != 0:
 		_fail(scene_name, "No se pudo descifrar la escena: %s" % str(output))
@@ -140,6 +164,8 @@ func _decrypt_and_load_scene(scene_name: String, scene_key: String) -> void:
 		_fail(scene_name, "El proceso terminó bien pero no se generó el archivo esperado")
 		return
 
+	print("[DRM] Escena descifrada correctamente en: %s" % output_abs)
+
 	if ResourceLoader.load_threaded_request(output_path) != OK:
 		_delete_temp_file(output_path)
 		_fail(scene_name, "No se pudo iniciar la carga de la escena")
@@ -147,14 +173,34 @@ func _decrypt_and_load_scene(scene_name: String, scene_key: String) -> void:
 
 	var packed_scene: PackedScene = ResourceLoader.load_threaded_get(output_path)
 
-	_delete_temp_file(output_path)
-
 	if packed_scene == null:
+		_delete_temp_file(output_path)
 		_fail(scene_name, "No se pudo cargar la escena descifrada")
 		return
 
+	print("[DRM] Escena '%s' cargada correctamente en memoria." % scene_name)
+
+	print("[DRM] Escena cargada en memoria. El archivo temporal seguirá existiendo por %s segundos en:" % DEBUG_DELETE_DELAY_SECONDS)
+	print(ProjectSettings.globalize_path(output_path))
+
+	_schedule_temp_file_deletion(output_path)
+
 	emit_signal("scene_ready", scene_name)
 	get_tree().change_scene_to_packed(packed_scene)
+
+func _schedule_temp_file_deletion(path: String) -> void:
+	var timer := Timer.new()
+	timer.wait_time = max(DEBUG_DELETE_DELAY_SECONDS, 0.01)
+	timer.one_shot = true
+	add_child(timer)
+
+	timer.timeout.connect(func():
+		_delete_temp_file(path)
+		print("[DRM] Archivo temporal borrado: %s" % path)
+		timer.queue_free()
+	)
+
+	timer.start()
 
 
 func _delete_temp_file(path: String) -> void:
