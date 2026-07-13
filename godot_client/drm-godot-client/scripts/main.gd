@@ -20,6 +20,7 @@ func _ready():
 
 
 func _on_validate_button_pressed():
+	ContentManager.query_scene_change("first_level")
 	status_label.text = "Estado: leyendo critical.gd..."
 	protected_content_label.text = "Contenido protegido: bloqueado"
 
@@ -127,3 +128,6 @@ func unlock_protected_content():
 	file.close()
 
 	protected_content_label.text = "Contenido desbloqueado: " + protected_content
+	
+	await get_tree().create_timer(3).timeout
+	
