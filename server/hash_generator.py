@@ -9,5 +9,6 @@ def calculateHash():
         content = file.read()
 
     file_hash = hashlib.sha256(content).hexdigest()
+    print(f"HASH: {file_hash}")
 
     return file_hash
