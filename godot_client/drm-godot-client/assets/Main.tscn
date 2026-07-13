@@ -35,6 +35,7 @@ text = "Verificación DRM"
 horizontal_alignment = 1
 
 [node name="ValidateButton" type="Button" parent="VBoxContainer" unique_id=849586760]
+visible = false
 layout_mode = 2
 text = "Verificar integridad"
 
