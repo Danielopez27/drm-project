@@ -13,42 +13,6 @@ radius = 62.779694
 
 [sub_resource type="Animation" id="Animation_ldg20"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("End(idle):position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(3, -2753)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("End(idle):skew")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("End(idle):scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1.295, 1.295)]
-}
 
 [sub_resource type="Animation" id="Animation_v62ie"]
 resource_name = "attained"
@@ -128,6 +92,96 @@ shader_parameter/ca_strength = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rtwca"]
 size = Vector2(125, 126)
 
+[sub_resource type="Animation" id="Animation_tqsyo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Environment/platforms_shadow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-7, 7)]
+}
+
+[sub_resource type="Animation" id="Animation_8pfbq"]
+resource_name = "rotation_1"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 0.03847342),
+"update": 0,
+"values": [0.0, 3.141592653589793]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Environment/platforms_shadow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-7, 7), Vector2(7, -7)]
+}
+
+[sub_resource type="Animation" id="Animation_3l85m"]
+resource_name = "rotation_2"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 0.021344433),
+"update": 0,
+"values": [3.141592653589793, 1.5707963267948966]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Environment/platforms_shadow:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(7, -7), Vector2(-7, -7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3l85m"]
+_data = {
+&"RESET": SubResource("Animation_tqsyo"),
+&"rotation_1": SubResource("Animation_8pfbq"),
+&"rotation_2": SubResource("Animation_3l85m")
+}
+
 [node name="FirstScene" type="Node2D" unique_id=402608345]
 
 [node name="End" type="Area2D" parent="." unique_id=1915923877]
@@ -139,7 +193,6 @@ script = ExtResource("1_ldg20")
 shape = SubResource("CircleShape2D_afle1")
 
 [node name="End(idle)" type="Sprite2D" parent="End" unique_id=312747195]
-position = Vector2(3, -2753)
 scale = Vector2(1.295, 1.295)
 texture = ExtResource("1_mf178")
 
@@ -178,7 +231,6 @@ scale = Vector2(4, 4)
 tile_map_data = PackedByteArray("AAD6//3/AAAMAAAAAAD7//3/AAANAAAAAAD8//3/AAAOAAAAAAAFAPb/AAAPAAAAAAAFAPf/AAAPAAEAAAAFAPj/AAAPAAIAAAABAPn/AAANAAEAAAABAPr/AAANAAIAAAACAPn/AAAOAAEAAAACAPr/AAAOAAIAAAABAPT/AAAMAAEAAAD9//H/AAAPAAQAAAD9//L/AAAPAAUAAAD9//P/AAAPAAYAAADz/+n/AAAMAAQAAAD0/+n/AAANAAQAAAD1/+n/AAAOAAQAAAD5/+r/AAAMAAUAAAD6/+L/AAASAAkAAAD6/+P/AAASAAoAAAD7/+L/AAATAAkAAAD7/+P/AAATAAoAAAAAAN//AAASAAkAAAAAAOD/AAASAAoAAAABAN//AAATAAkAAAABAOD/AAATAAoAAAD6/93/AAARAAkAAAD+/9b/AAARAAgAAAABANb/AAATAAgAAAD//9b/AAASAAgAAAAAANb/AAASAAgAAAD3//D/AAAPAAQAAAD3//H/AAAPAAUAAAD3//L/AAAPAAYAAADy/+//AAAPAAQAAADy//D/AAAPAAUAAADy//H/AAAPAAYAAADs/+3/AAANAAYAAADt/+3/AAAOAAYAAADu/+7/AAANAAYAAADv/+7/AAAOAAYAAADs/+z/AAANAAUAAADt/+z/AAAOAAUAAADu/+3/AAANAAUAAADv/+3/AAAOAAUAAAD+/+f/AAAMAAQAAAD//+f/AAANAAQAAAAAAOf/AAAOAAQAAAABANr/AAARAAkAAAA=")
 tile_set = ExtResource("3_rtwca")
 collision_enabled = false
-metadata/_edit_lock_ = true
 
 [node name="platforms" type="TileMapLayer" parent="Environment" unique_id=1506529710]
 material = SubResource("ShaderMaterial_rtwca")
@@ -194,6 +246,7 @@ script = ExtResource("1_2dheu")
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=828477946]
 position = Vector2(49.999996, -259)
 scale = Vector2(28.484299, -0.222942)
+ignore_rotation = false
 zoom = Vector2(0.625, 0.625)
 limit_top = -3150
 position_smoothing_enabled = true
@@ -210,6 +263,9 @@ modulate = Color(0.011764706, 0.011764706, 0.011764706, 1)
 show_behind_parent = true
 position = Vector2(-7, 7)
 texture = ExtResource("2_vmcsc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D" unique_id=1232851089]
+libraries/ = SubResource("AnimationLibrary_3l85m")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=139307373]
 position = Vector2(-511, -2967)
